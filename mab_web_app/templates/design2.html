@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design 2 - MAB Testing</title>
+    <link rel="stylesheet" href="/static/css/design2.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body class="design2">
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>TechGadget</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Products</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="split-hero">
+        <div class="product-image">
+            <img src="https://via.placeholder.com/600x800" alt="Smart Device">
+        </div>
+        <div class="product-details">
+            <h1>TechGadget Pro</h1>
+            <div class="rating">
+                <span class="stars">★★★★★</span>
+                <span class="review-count">(256 reviews)</span>
+            </div>
+            <p class="price">$299 <span class="original-price">$399</span></p>
+            <p class="savings">Save $100 (25% off)</p>
+            <div class="product-description">
+                <p>The TechGadget Pro is the ultimate smart device that revolutionizes how you interact with technology. With its sleek design and powerful features, it's the perfect companion for the modern lifestyle.</p>
+            </div>
+            <div class="product-highlights">
+                <h3>Highlights</h3>
+                <ul>
+                    <li><i class="fas fa-check"></i> Advanced A15 processor</li>
+                    <li><i class="fas fa-check"></i> 24-hour battery life</li>
+                    <li><i class="fas fa-check"></i> 5G and Wi-Fi 6 connectivity</li>
+                    <li><i class="fas fa-check"></i> Military-grade security</li>
+                </ul>
+            </div>
+            <div class="cta-container">
+                <div class="stock-status">
+                    <i class="fas fa-box"></i> In Stock - Free 2-day shipping
+                </div>
+                <form action="/convert" method="post">
+                    <button type="submit" class="cta-button">Add to Cart</button>
+                </form>
+                <button class="wishlist-button"><i class="far fa-heart"></i> Add to Wishlist</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="product-tabs">
+        <div class="container">
+            <div class="tabs">
+                <div class="tab active" data-tab="specs">Specifications</div>
+                <div class="tab" data-tab="reviews">Reviews</div>
+                <div class="tab" data-tab="faq">FAQ</div>
+            </div>
+            
+            <div class="tab-content active" id="specs">
+                <table class="specs-table">
+                    <tr>
+                        <th>Processor</th>
+                        <td>A15 Bionic Chip</td>
+                    </tr>
+                    <tr>
+                        <th>Battery Life</th>
+                        <td>24 hours</td>
+                    </tr>
+                    <tr>
+                        <th>Display</th>
+                        <td>6.7" Super Retina XDR</td>
+                    </tr>
+                    <tr>
+                        <th>Storage</th>
+                        <td>128GB / 256GB / 512GB</td>
+                    </tr>
+                    <tr>
+                        <th>Connectivity</th>
+                        <td>5G, Wi-Fi 6, Bluetooth 5.2</td>
+                    </tr>
+                </table>
+            </div>
+            
+            <div class="tab-content" id="reviews">
+                <div class="review-summary">
+                    <div class="average-rating">4.8</div>
+                    <div class="rating-bars">
+                        <div class="rating-bar">
+                            <span class="stars">★★★★★</span>
+                            <div class="bar-container">
+                                <div class="bar" style="width: 85%;"></div>
+                            </div>
+                            <span class="percentage">85%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="faq">
+                <div class="faq-item">
+                    <div class="question">How long does the battery last?</div>
+                    <div class="answer">The TechGadget Pro battery lasts up to 24 hours on a single charge with normal use.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="related-products">
+        <div class="container">
+            <h2>You May Also Like</h2>
+            <div class="product-grid">
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/200x200" alt="Related Product">
+                    <h3>TechGadget Mini</h3>
+                    <p class="price">$199</p>
+                </div>
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/200x200" alt="Related Product">
+                    <h3>TechGadget Ultra</h3>
+                    <p class="price">$399</p>
+                </div>
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/200x200" alt="Related Product">
+                    <h3>TechGadget Accessories</h3>
+                    <p class="price">$49</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h2>TechGadget</h2>
+                    <p>Innovating the future, today.</p>
+                </div>
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">Products</a></li>
+                        <li><a href="#">Support</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h3>Contact Us</h3>
+                    <p>Email: info@techgadget.com</p>
+                    <p>Phone: (123) 456-7890</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 TechGadget. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/static/js/main.js"></script>
+</body>
+</html> 

@@ -1,0 +1,232 @@
+/* Thank You Page Styles */
+:root {
+    --primary-color: #4a6fff;
+    --secondary-color: #f7f9fc;
+    --accent-color: #2ed573;
+    --text-color: #333;
+    --light-text: #777;
+    --border-color: #e1e1e1;
+    --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-family);
+    color: var(--text-color);
+    line-height: 1.6;
+    background-color: var(--secondary-color);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+.thank-you-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 50px 20px;
+}
+
+.thank-you-content {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    padding: 40px;
+    max-width: 700px;
+    width: 100%;
+    text-align: center;
+}
+
+.icon-container {
+    margin-bottom: 20px;
+}
+
+.icon-container i {
+    font-size: 5rem;
+    color: var(--accent-color);
+}
+
+.thank-you-content h1 {
+    font-size: 2.2rem;
+    margin-bottom: 15px;
+    color: var(--text-color);
+}
+
+.confirmation-message {
+    font-size: 1.2rem;
+    color: var(--light-text);
+    margin-bottom: 30px;
+}
+
+.order-details {
+    background-color: var(--secondary-color);
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+}
+
+.order-number,
+.order-date {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+}
+
+.order-number span,
+.order-date span {
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.email-confirmation {
+    color: var(--light-text);
+    margin-bottom: 30px;
+}
+
+.next-steps {
+    text-align: left;
+    margin-bottom: 30px;
+}
+
+.next-steps h3 {
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+    color: var(--text-color);
+}
+
+.next-steps ul {
+    list-style: none;
+}
+
+.next-steps li {
+    margin-bottom: 12px;
+    display: flex;
+    align-items: flex-start;
+}
+
+.next-steps li i {
+    color: var(--accent-color);
+    margin-right: 10px;
+    font-size: 1.1rem;
+    margin-top: 3px;
+}
+
+.cta-buttons {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 30px;
+    justify-content: center;
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 12px 25px;
+    border-radius: 5px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+}
+
+.cta-button.primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.cta-button.primary:hover {
+    background-color: #3857d0;
+}
+
+.cta-button.secondary {
+    background-color: transparent;
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+}
+
+.cta-button.secondary:hover {
+    background-color: var(--secondary-color);
+}
+
+.social-share {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color);
+}
+
+.social-share p {
+    color: var(--light-text);
+    margin-bottom: 15px;
+}
+
+.social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.social-icon {
+    width: 40px;
+    height: 40px;
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.social-icon:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+footer {
+    background-color: #2d3748;
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+}
+
+footer p {
+    font-size: 0.9rem;
+    color: #a0aec0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .thank-you-content {
+        padding: 30px 20px;
+    }
+    
+    .cta-buttons {
+        flex-direction: column;
+    }
+    
+    .cta-button {
+        width: 100%;
+    }
+    
+    .next-steps {
+        padding-left: 0;
+    }
+    
+    .thank-you-content h1 {
+        font-size: 1.8rem;
+    }
+} 

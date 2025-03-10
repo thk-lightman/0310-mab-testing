@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAB Testing Admin Dashboard</title>
+    <link rel="stylesheet" href="/static/css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Hidden data elements for JavaScript -->
+    <div id="chart-data" style="display: none;" 
+         data-design-names="{{ stats.design_names|tojson }}"
+         data-conversion-values="{{ stats.values|map('multiply', 100)|list|tojson }}"
+         data-impression-counts="{{ stats.counts|tojson }}">
+    </div>
+
+    <div class="dashboard">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>MAB Testing</h2>
+                <p>Admin Dashboard</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="active"><a href="#"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+                    <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+                    <li><a href="#"><i class="fas fa-history"></i> History</a></li>
+                    <li><a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <p>MAB Algorithm: <strong>{{ stats.algorithm }}</strong></p>
+            </div>
+        </aside>
+
+        <main class="content">
+            <header class="content-header">
+                <h1>Multi-Armed Bandit Testing Dashboard</h1>
+                <div class="actions">
+                    <button id="refresh-button" class="refresh-button"><i class="fas fa-sync-alt"></i> Refresh Data</button>
+                </div>
+            </header>
+
+            <section class="stats-overview">
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-users"></i></div>
+                    <div class="stat-content">
+                        <h3>Total Impressions</h3>
+                        <p class="stat-value">{{ stats.total_tries }}</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-chart-pie"></i></div>
+                    <div class="stat-content">
+                        <h3>Best Performing Design</h3>
+                        <p class="stat-value">
+                            {% set max_value = 0 %}
+                            {% set best_design = "" %}
+                            {% for i in range(stats.values|length) %}
+                                {% if stats.values[i] > max_value %}
+                                    {% set max_value = stats.values[i] %}
+                                    {% set best_design = stats.design_names[i] %}
+                                {% endif %}
+                            {% endfor %}
+                            {{ best_design }} ({{ "%.2f"|format(max_value * 100) }}%)
+                        </p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-clock"></i></div>
+                    <div class="stat-content">
+                        <h3>Test Duration</h3>
+                        <p class="stat-value">
+                            <span id="test-duration">Calculating...</span>
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="data-section">
+                <div class="data-card">
+                    <div class="card-header">
+                        <h2>Conversion Rates</h2>
+                    </div>
+                    <div class="card-content">
+                        <canvas id="conversion-chart"></canvas>
+                    </div>
+                </div>
+
+                <div class="data-card">
+                    <div class="card-header">
+                        <h2>Impressions Distribution</h2>
+                    </div>
+                    <div class="card-content">
+                        <canvas id="impressions-chart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <section class="design-details">
+                <h2>Design Performance Details</h2>
+                <div class="data-table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Design</th>
+                                <th>Impressions</th>
+                                <th>Conversion Rate</th>
+                                <th>Confidence</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for i in range(stats.values|length) %}
+                            <tr>
+                                <td>{{ stats.design_names[i] }}</td>
+                                <td>{{ stats.counts[i] }}</td>
+                                <td>{{ "%.2f"|format(stats.values[i] * 100) }}%</td>
+                                <td>
+                                    {% if stats.counts[i] < 10 %}
+                                    <span class="confidence low">Low</span>
+                                    {% elif stats.counts[i] < 30 %}
+                                    <span class="confidence medium">Medium</span>
+                                    {% else %}
+                                    <span class="confidence high">High</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="visualizations">
+                <h2>MAB Visualizations</h2>
+                <div class="viz-container">
+                    {% for image in images %}
+                    <div class="viz-item">
+                        <img src="/static/images/{{ image }}" alt="MAB Visualization">
+                        <p class="viz-caption">{{ image.split('_')[0].title() }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set test duration (just a placeholder - in real application this would be calculated from data)
+            const startDate = new Date();
+            startDate.setDate(startDate.getDate() - 7); // Assume the test started 7 days ago
+            const now = new Date();
+            const diffTime = Math.abs(now - startDate);
+            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+            const diffHours = Math.floor((diffTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            document.getElementById('test-duration').textContent = `${diffDays} days, ${diffHours} hours`;
+            
+            // Get data from hidden element
+            const chartData = document.getElementById('chart-data');
+            const designNames = JSON.parse(chartData.getAttribute('data-design-names'));
+            const conversionValues = JSON.parse(chartData.getAttribute('data-conversion-values'));
+            const impressionCounts = JSON.parse(chartData.getAttribute('data-impression-counts'));
+            
+            // Conversion Rates Chart
+            const conversionCtx = document.getElementById('conversion-chart').getContext('2d');
+            const conversionChart = new Chart(conversionCtx, {
+                type: 'bar',
+                data: {
+                    labels: designNames,
+                    datasets: [{
+                        label: 'Conversion Rate (%)',
+                        data: conversionValues,
+                        backgroundColor: [
+                            'rgba(75, 192, 192, 0.7)',
+                            'rgba(54, 162, 235, 0.7)',
+                            'rgba(153, 102, 255, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(153, 102, 255, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Conversion Rate (%)'
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Impressions Chart
+            const impressionsCtx = document.getElementById('impressions-chart').getContext('2d');
+            const impressionsChart = new Chart(impressionsCtx, {
+                type: 'pie',
+                data: {
+                    labels: designNames,
+                    datasets: [{
+                        data: impressionCounts,
+                        backgroundColor: [
+                            'rgba(75, 192, 192, 0.7)',
+                            'rgba(54, 162, 235, 0.7)',
+                            'rgba(153, 102, 255, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(153, 102, 255, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top'
+                        },
+                        title: {
+                            display: true,
+                            text: 'Impression Distribution'
+                        }
+                    }
+                }
+            });
+            
+            // Refresh button functionality
+            document.getElementById('refresh-button').addEventListener('click', function() {
+                window.location.reload();
+            });
+        });
+    </script>
+</body>
+</html> 
