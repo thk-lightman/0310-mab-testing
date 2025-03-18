@@ -15,6 +15,8 @@ This project implements a Multi-Armed Bandit (MAB) testing framework for evaluat
 
 ## Setup Instructions
 
+### Option 1: Local Setup
+
 1. Ensure Python 3.12+ is installed
 2. Set up a virtual environment:
    ```
@@ -29,6 +31,27 @@ This project implements a Multi-Armed Bandit (MAB) testing framework for evaluat
 5. Run the application:
    ```
    python app.py
+   ```
+
+### Option 2: Docker Setup
+
+1. Ensure Docker and Docker Compose are installed on your system
+2. Create a `.env` file from the template:
+   ```
+   cp .env.example .env
+   ```
+3. Build and start the containers:
+   ```
+   docker-compose up -d
+   ```
+4. Access the application at `http://localhost:5000`
+5. View logs:
+   ```
+   docker-compose logs -f
+   ```
+6. Stop the application:
+   ```
+   docker-compose down
    ```
 
 ## AWS Setup
@@ -47,3 +70,22 @@ This project implements a Multi-Armed Bandit (MAB) testing framework for evaluat
 - Access the application at `http://localhost:5000` when running locally
 - Monitor MAB performance in the admin dashboard
 - Run `python visualize.py` to generate visualization of test results 
+
+## Docker Deployment to AWS
+
+For deploying the Docker container to AWS:
+
+1. Build the Docker image:
+   ```
+   docker build -t mab-web-app .
+   ```
+2. Tag the image for ECR:
+   ```
+   docker tag mab-web-app:latest [AWS_ACCOUNT_ID].dkr.ecr.[REGION].amazonaws.com/mab-web-app:latest
+   ```
+3. Push to ECR:
+   ```
+   aws ecr get-login-password --region [REGION] | docker login --username AWS --password-stdin [AWS_ACCOUNT_ID].dkr.ecr.[REGION].amazonaws.com
+   docker push [AWS_ACCOUNT_ID].dkr.ecr.[REGION].amazonaws.com/mab-web-app:latest
+   ```
+4. Deploy using ECS, Lightsail containers, or EC2 with docker. 
